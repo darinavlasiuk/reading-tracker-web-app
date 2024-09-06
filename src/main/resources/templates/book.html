@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <title>Book page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}" href="../static/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <div class="header__logo">Reading Tracker Web Application</div>
+
+                <nav class="nav">
+                    <a class="nav__link" th:href="@{/main}">MAIN PAGE</a>
+                    <a class="nav__link" th:href="@{/logIn}">MY ACCOUNT</a>
+                    <!--<a class="nav__link" href="@{/logIn}">LOG IN</a>
+                    <a class="nav__link" href="@{/register}">REGISTER</a>-->
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="section__homepage">
+            <div class="container__homepage" th:object="${book}">
+                <h1 class="section__title" th:text="${book.title}"></h1>
+                <div class="genre">
+                    <div>
+                        <img class="book__img" th:src="${book.cover}" alt="Top book" >
+                    </div>
+                    <div class="book">
+                        <p th:text="|Title: ${book.title}|"></p>
+                        <br>
+                        <p th:text="|Rating: ${book.rating}|"></p>
+                        <br>
+                        <p th:text="|Release date: ${book.releaseDate}|"></p>
+                        <br>
+                        <div th:object="${book.publisher}">
+                            <p th:text="|Publisher: ${book.publisher.name}|"></p>
+                        </div>
+                        <br>
+                        <div th:object="${book.author}">
+                            <a th:href="@{|/authors/${book.author.id}|}">
+                                <p th:text="|Author: ${book.author.firstName} ${book.author.lastName}|"></p>
+                            </a>
+                        </div>
+                        <br>
+                        <h3>Genre:</h3>
+                        <br>
+                        <div th:each="genre: ${book.genres}">
+                            <p th:text="${genre.name}"></p>
+                            <br>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+</body>
+</html>

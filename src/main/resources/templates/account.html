@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <title>My Account</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/styles.css}" href="../static/styles.css">
+
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header__inner">
+        <div class="header__logo">Reading Tracker Web Application</div>
+
+        <nav>
+          <a class="nav__link" th:href="@{/main}">MAIN PAGE</a>
+          <!--<a class="nav__link" href="@{/logIn}">LOG IN</a>
+          <a class="nav__link" href="@{/register}">REGISTER</a>-->
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <div th:if="${access}" style="margin-top: 50px">
+    <div th:if="${progress}">
+      <section class="section__homepage">
+        <div>
+          <h1 th:text="|Set goal for ${year}: ${goal} book(s)|"></h1>
+          <br>
+          <h1 class="section__title" th:text="|Your progress: ${progress}%|"></h1>
+
+          <div th:if="${booksBehindSchedule}">
+            <h3 th:text="|You are ${booksBehindSchedule} book(s) behind your schedule.|"></h3>
+          </div>
+          <div th:unless="${booksBehindSchedule}">
+            <h3  th:text="|Great! You are on track with your reading schedule.|"></h3>
+          </div>
+        </div>
+      </section>
+    </div>
+
+
+    <section class="section__homepage" th:each="book: ${books}">
+      <div class="container__homepage">
+        <div class="genre">
+          <div>
+            <a th:href="@{|/books/${book.id}|}">
+              <img class="account__img" th:src="${book.cover}" alt="Top book" >
+            </a>
+          </div>
+          <div class="account">
+            <p th:text="|Title: ${book.title}|"></p>
+            <br>
+            <p th:text="|Rating: ${book.rating}|"></p>
+            <br>
+            <div th:object="${book.author}">
+              <a th:href="@{|/authors/${book.author.id}|}">
+                <p th:text="|Author: ${book.author.firstName} ${book.author.lastName}|"></p>
+              </a>
+            </div>
+            <br>
+          </div>
+
+        </div>
+        <h1 class="section__title"></h1>
+      </div>
+    </section>
+
+  </div>
+
+  <section class="section__homepage" th:unless="${access}">
+    <div class="container__homepage" style="align-content: center">
+        <h1>No access</h1>
+    </div>
+  </section>
+
+</body>
+</html>

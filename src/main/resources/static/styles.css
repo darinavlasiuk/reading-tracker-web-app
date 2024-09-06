@@ -1,0 +1,295 @@
+body {
+    width: 100%;
+    font-family: "Open Sans";
+    margin: 0 auto;
+    line-height: 2;
+    background: bisque;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+
+}
+
+
+/*header*/
+
+.header {
+    padding-top: 12px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+
+}
+
+.header__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.header__logo {
+    font-size: 18px;
+    font-weight: 550;
+    color:#c8350cdc;
+    font-family:  Georgia, serif;
+    text-shadow: rgb(255, 255, 255) 1px 0 10px;
+}
+
+
+/*nav*/
+
+.nav__link {
+    font-size: 15px;
+    font-weight: 550;
+    color: #fff;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 15px;
+    position: relative;
+    text-decoration: none;
+    transition: color .2s linear;
+    text-shadow: black 1px 0 10px;
+}
+
+.nav__link:after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 3px;
+    opacity: 0;
+
+    background-color: #ff5627f1;
+
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+
+    transition: opacity .3s linear;
+}
+
+.nav__link:hover {
+    color:#f87021;
+}
+
+.nav__link:hover:after {
+    opacity: 1;
+}
+
+nav span {
+    font-weight: 500;
+}
+
+div {
+    display: block;
+}
+
+section,
+footer {
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+
+}
+
+/*homepage*/
+
+.section__homepage {
+    position: relative;
+    text-align: center;
+    font-size: 15px;
+    padding: 20px 0 20px;
+    margin-top: 20px;
+}
+
+.container__homepage {
+    width: 570px;
+    margin: 0 auto;
+    padding: 0 0 5px;
+}
+
+.container__login{
+    width: 570px;
+    margin: 0 auto;
+    padding: 0 0 5px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.login{
+    margin: 0 auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.section__title {
+    padding: 2rem;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1;
+}
+
+.section__title:after {
+    content: "";
+    display: block;
+    height: 2px;
+    background-color: #e07a70;
+    margin: 12px auto 0;
+}
+
+p {
+    display: block;
+    margin: 0;
+    max-width: 600px;
+}
+
+
+/*menu*/
+
+.genre {
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.genre__img {
+    width: 100%;
+    height: 55vh;
+    max-height: 300px;
+    min-height: 150px;
+    aspect-ratio: 1;
+    object-fit: scale-down;
+}
+
+
+.genre__h3 {
+    padding: 0 0 7px;
+}
+
+h1,
+h2,
+h3 {
+    font-weight: 600;
+    margin: 0;
+}
+
+.book__img {
+    width: 100%;
+    height: 55vh;
+    max-height: 450px;
+    min-height: 250px;
+    aspect-ratio: 1;
+    object-fit: scale-down;
+}
+.account__img {
+    width: 100%;
+    height: 55vh;
+    max-height: 200px;
+    min-height: 150px;
+    aspect-ratio: 1;
+    object-fit: scale-down;
+}
+
+.book{
+    max-height: 350px;
+    min-height: 250px;
+    justify-content: center;
+}
+
+.account{
+    max-height: 200px;
+    min-height: 100px;
+    justify-content: center;
+}
+
+table {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1300px;
+    border: 2px solid green;
+    border-radius: 1rem;
+    border-spacing: 0;
+    overflow: hidden;
+}
+
+td,
+th {
+    padding: 0.5rem;
+}
+
+tbody > tr:first-child > td {
+    border-top: 2px solid green;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: rgb(176, 215, 176);
+}
+
+
+h1 {
+    font-size: 30px;
+    font-weight: 520;
+}
+
+h2 {
+    font-size: 23px;
+    font-weight: 300;
+    padding: 0.5rem;
+}
+
+h3 {
+    font-size: 23px;
+    font-weight: 400;
+}
+
+form {
+    display: flex;
+    min-width: 200px;
+    align-items: stretch;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+
+input {
+    font: inherit;
+    border: 1px solid green;
+    border-radius: 0.5rem;
+    min-width: 200px;
+    display: block;
+    margin-top: 0.5em;
+}
+
+.submit {
+    background: green;
+    color: white;
+    min-width: 40px;
+}
+
+footer {
+    background: rgb(176, 215, 176);
+    text-align: center;
+}
