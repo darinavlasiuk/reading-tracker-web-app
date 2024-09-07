@@ -43,7 +43,7 @@
             <div th:each="book: ${genre.value}">
                 <div>
                     <a th:href="@{|/books/${book.id}|}">
-                        <img class="genre__img" th:src="${book.cover}" alt="Top book">
+                        <img class="genre__img" th:src="|https://covers.openlibrary.org/b/isbn/${book.cover}-M.jpg|" alt="Top book">
                     </a>
                 </div>
             </div>

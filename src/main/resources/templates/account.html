@@ -51,7 +51,7 @@
         <div class="genre">
           <div>
             <a th:href="@{|/books/${book.id}|}">
-              <img class="account__img" th:src="${book.cover}" alt="Top book" >
+              <img class="account__img" th:src="|https://covers.openlibrary.org/b/isbn/${book.cover}-M.jpg|" alt="Top book" >
             </a>
           </div>
           <div class="account">

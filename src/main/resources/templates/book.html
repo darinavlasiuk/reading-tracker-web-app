@@ -32,7 +32,7 @@
                 <h1 class="section__title" th:text="${book.title}"></h1>
                 <div class="genre">
                     <div>
-                        <img class="book__img" th:src="${book.cover}" alt="Top book" >
+                        <img class="book__img" th:src="|https://covers.openlibrary.org/b/isbn/${book.cover}-L.jpg|" alt="Top Book" >
                     </div>
                     <div class="book">
                         <p th:text="|Title: ${book.title}|"></p>
