@@ -14,13 +14,20 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
             "FROM Book b " +
             "JOIN Book_Genres bg ON b.ID = bg.Books_ID " +
             "JOIN Genre g ON bg.Genres_ID = g.ID " +
-            "JOIN User_Book ub ON b.ID = ub.Book_ID " +
-            "WHERE g.Name = ?1 AND ub.is_Read = 1 " +
-            "GROUP BY b.ID, b.Title, b.Cover, b.Rating, b.Release_Date, b.Publisher_ID, b.Author_ID " +
+            "LEFT JOIN User_Book ub ON b.ID = ub.Book_ID " +
+            "WHERE g.Name = ?1 " +
+            "GROUP BY b.ID " +
             "ORDER BY b.Rating DESC, Count(ub.is_read) DESC", nativeQuery = true)
-    List<Book> findTop5BooksInGenre(String genre); //?1
+    List<Book> findTop5BooksInGenre(String genre);
 
     Optional<Book> findByTitle(String title);
+    /*@Query(value = "SELECT b.* " +
+            "FROM Book b " +
+            "JOIN Author a ON b.Author_ID = a.ID " +
+            "WHERE LOWER(b.Title) = LOWER( ?1 ) OR LOWER(a.FIRST_NAME) LIKE LOWER('%?1%') OR LOWER(a.LAST_NAME) LIKE LOWER('%?1%') " +
+            "GROUP BY b.ID, b.Title, b.Cover, b.Rating, b.Release_Date, b.Publisher_ID, b.Author_ID " +
+            "ORDER BY b.Rating DESC", nativeQuery = true)
+    List<Book> findByTitleOrAuthor(String title); */
     @Query(value = "SELECT b.* " +
             "FROM Book b " +
             "JOIN User_Book ub ON ub.Book_ID = b.Id " +
