@@ -89,27 +89,30 @@ public class MVCController {
             model.addAttribute("booksReadThisYear", booksReadThisYear);
 
             double daysPerBook = (double) 365 / userDTO.get().getGoal();
-
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MM yyyy");
-            LocalDateTime date1 = LocalDate.now().atStartOfDay();
-            LocalDateTime date2 = LocalDate.parse("01 01 "+ Year.now().getValue(), dtf).atStartOfDay();
-            long daysPassed = Math.abs(Duration.between(date2, date1).toDays());
-
+            long daysPassed = calculateDaysPassed();
             int wasSupposedToRead = (int) (daysPassed / daysPerBook);
             int readThisYear = booksReadThisYear.size();
-            double progress = ((double) readThisYear / userDTO.get().getGoal())*100;
-            int booksBehindSchedule = Math.max(wasSupposedToRead - readThisYear, 0);
+            model.addAttribute("read", readThisYear);
 
+            double progress = ((double) readThisYear / userDTO.get().getGoal())*100;
             model.addAttribute("progress", progress);
+
+            int booksBehindSchedule = Math.max(wasSupposedToRead - readThisYear, 0);
             if(booksBehindSchedule>0)
                 model.addAttribute("booksBehindSchedule", booksBehindSchedule);
 
-            model.addAttribute("read", readThisYear);
             model.addAttribute("goal", userDTO.get().getGoal());
             model.addAttribute("year", Year.now().getValue());
         }
 
         return "account";
+    }
+    public long calculateDaysPassed(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MM yyyy");
+        LocalDateTime date1 = LocalDate.now().atStartOfDay();
+        LocalDateTime date2 = LocalDate.parse("01 01 "+ Year.now().getValue(), dtf).atStartOfDay();
+
+        return Math.abs(Duration.between(date2, date1).toDays());
     }
 
     @GetMapping("/account/{id}/wantToRead")

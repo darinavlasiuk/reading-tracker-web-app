@@ -28,13 +28,12 @@
   </header>
 
 
-
   <div style="margin-top: 50px">
     <section class="section__homepage">
       <div class="section__title__account">
-        <div style="display: flex; justify-content: left; align-items: flex-end">
-          <h1 style="text-transform: uppercase">Want to Read</h1>
-          <h3 style="text-indent: 45px;" th:text="|${wantToReadNumber} book(s)|"></h3>
+        <div class="title__container">
+          <h1 class="account__title">Want to Read</h1>
+          <h3 class="books__number" th:text="|${wantToReadNumber} book(s)|"></h3>
         </div>
       </div>
 
@@ -53,15 +52,15 @@
         </div>
       </div>
       <div th:unless="${wantToReadBooks}">
-        <h4 style="text-align: left; text-indent: 4em" th:text="|You have no books maked as 'Want to Read'.|"></h4>
+        <h4 class="books__empty" th:text="|You have no books maked as 'Want to Read'.|"></h4>
       </div>
     </section>
 
     <section class="section__homepage">
       <div class="section__title__account">
-        <div style="display: flex; justify-content: left; align-items: flex-end">
-          <h1 style="text-transform: uppercase">Read</h1>
-          <h3 style="text-indent: 45px;" th:text="|${readNumber} book(s)|"></h3>
+        <div class="title__container">
+          <h1 class="account__title">Read</h1>
+          <h3 class="books__number" th:text="|${readNumber} book(s)|"></h3>
         </div>
       </div>
 
@@ -80,7 +79,7 @@
         </div>
       </div>
       <div th:unless="${readBooks}">
-        <h4 style="text-align: left; text-indent: 4em" th:text="|You have no books maked as 'Read'.|"></h4>
+        <h4 class="books__empty" th:text="|You have no books maked as 'Read'.|"></h4>
       </div>
     </section>
 
@@ -89,9 +88,9 @@
         <div>
           <h1 class="section__title" th:text="|Your progress for ${year}|"></h1>
           <h1 th:text="|${read} of ${goal} books|"></h1>
-          <div style="justify-content: center; display: flex; vertical-align: middle; line-height: 22px;">
-            <progress style="margin-left: 3em" th:value="${read}" th:max="${goal}"></progress>
-            <h4 style="text-indent: 5px" th:text="|${progress}%|"></h4>
+          <div class="progress__container">
+            <progress th:value="${read}" th:max="${goal}"></progress>
+            <h4 class="percent" th:text="|${progress}%|"></h4>
           </div>
           <div th:if="${booksBehindSchedule}">
             <h4 style="text-align: center" th:text="|${booksBehindSchedule} book(s) behind your schedule.|"></h4>
@@ -106,14 +105,14 @@
 
     <section class="section__homepage" th:each="book: ${booksReadThisYear}">
       <div class="container__homepage">
-        <div class="genre">
+        <div class="account">
           <div>
             <a th:href="@{|/books/${book.id}|}">
               <img class="account__img" th:src="|https://covers.openlibrary.org/b/isbn/${book.cover}-M.jpg|" alt="Top book" >
             </a>
           </div>
           <div class="account__book">
-            <p th:text="|Title: ${book.title}|"></p>
+            <h4 class="book__title" th:text="|${book.title}|"></h4>
             <br>
             <p th:text="|Rating: ${book.rating}|"></p>
             <br>
@@ -137,6 +136,10 @@
         <h1>No access</h1>
     </div>
   </section>-->
+  <footer>
+    <p>Copyright (c) 2024 Daryna Vlasiuk</p>
+  </footer>
+
 
 </body>
 </html>

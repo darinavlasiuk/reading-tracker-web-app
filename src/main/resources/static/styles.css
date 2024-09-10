@@ -16,7 +16,6 @@ body {
     width: 100%;
     max-width: 1300px;
     margin: 0 auto;
-
 }
 
 
@@ -114,6 +113,12 @@ footer {
     margin-top: 20px;
 }
 
+.container__book {
+    width: 690px;
+    margin: 0 auto;
+    padding: 0 0 5px;
+}
+
 .container__homepage {
     width: 570px;
     margin: 0 auto;
@@ -132,12 +137,13 @@ footer {
 }
 
 .login{
-    margin: 0 auto;
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+    width: 100px;
+    height: 100px;
 }
 
 .section__title {
@@ -162,12 +168,38 @@ footer {
     text-align: left;
     line-height: 1;
 }
+.section__title__author {
+    padding: 2rem;
+    text-indent: 1em;
+    text-align: center;
+    line-height: 1;
+}
+
+.section__title__author:after {
+    content: "";
+    display: block;
+    height: 2px;
+    background-color: #e07a70;
+    margin: 12px auto 0;
+}
+
 .section__title__account:after {
     content: "";
     display: block;
     height: 2px;
     background-color: #e07a70;
     margin: 12px auto 0;
+}
+.title__container {
+    display: flex;
+    justify-content: left;
+    align-items: flex-end;
+}
+.progress__container {
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+    line-height: 22px;
 }
 
 p {
@@ -186,6 +218,7 @@ p {
     text-align: center;
     display: flex;
     justify-content: space-between;
+    line-height: 22px;
 }
 
 
@@ -230,9 +263,8 @@ h4 {
 }
 
 .book{
-    max-height: 350px;
     min-height: 250px;
-    justify-content: center;
+    text-align: left;
 }
 
 .account{
@@ -240,12 +272,16 @@ h4 {
     max-width: 1300px;
     justify-content: left;
     display: flex;
+    line-height: 22px;
 }
 
+.account__title {
+    text-transform: uppercase;
+}
 .account__book{
     max-height: 200px;
     min-height: 100px;
-    justify-content: center;
+    text-align: left;
 }
 
 table {
@@ -289,8 +325,25 @@ h3 {
 }
 
 h4 {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 400;
+}
+
+.book__title {
+    font-weight: 650;
+}
+
+.percent {
+    text-indent: 5px
+}
+
+.books__number {
+    text-indent: 45px;
+}
+
+.books__empty {
+    text-align: left;
+    text-indent: 4em
 }
 
 form {
@@ -328,6 +381,7 @@ progress{
     width: 500px;
     height: 24px;
     border: 2px solid #e07a70;
+    margin-left: 3em;
 }
 
 /*style for background track*/

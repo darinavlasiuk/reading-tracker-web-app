@@ -26,17 +26,18 @@
             </div>
         </div>
     </header>
+    <div th:object="${book}">
+        <section class="section__homepage">
+            <h1 class="section__title__author" th:text="${book.title}"></h1>
+        </section>
 
-    <section class="section__homepage">
-            <div class="container__homepage" th:object="${book}">
-                <h1 class="section__title" th:text="${book.title}"></h1>
-                <div class="genre">
+        <section class="section__homepage">
+            <div class="container__book">
+                <div class="account">
                     <div>
                         <img class="book__img" th:src="|https://covers.openlibrary.org/b/isbn/${book.cover}-L.jpg|" alt="Top Book" >
                     </div>
                     <div class="book">
-                        <p th:text="|Title: ${book.title}|"></p>
-                        <br>
                         <p th:text="|Rating: ${book.rating}|"></p>
                         <br>
                         <p th:text="|Release date: ${book.releaseDate}|"></p>
@@ -53,15 +54,21 @@
                         <br>
                         <h3>Genre:</h3>
                         <br>
-                        <div th:each="genre: ${book.genres}">
+                        <div style="text-indent: 3em" th:each="genre: ${book.genres}">
                             <p th:text="${genre.name}"></p>
                             <br>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
+
+
+    </div>
+
+    <footer>
+        <p>Copyright (c) 2024 Daryna Vlasiuk</p>
+    </footer>
 
 </body>
 </html>

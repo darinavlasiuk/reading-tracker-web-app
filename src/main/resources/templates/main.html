@@ -32,11 +32,14 @@
         </div>
     </header>
 
-    <section class="section__homepage" th:if="${error}" style="text-align: center">
-        <p th:text="${error}"></p>
+    <div style="margin-top: 50px"></div>
+
+    <section class="section__homepage" th:if="${error}">
+        <div class="container__homepage">
+            <p th:text="${error}"></p>
+        </div>
     </section>
 
-    <div style="margin-top: 50px"></div>
 
     <section class="section__homepage" th:each="genre: ${genres}">
         <h1 class="section__title" th:text="${genre.key}"></h1>
@@ -54,7 +57,7 @@
 
 
     <footer>
-        <p>Copyright (c) 2024 TPO s26878</p>
+        <p>Copyright (c) 2024 Daryna Vlasiuk</p>
     </footer>
 
 </body>
