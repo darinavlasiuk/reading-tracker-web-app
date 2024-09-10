@@ -31,6 +31,6 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
     @Query(value = "SELECT b.* " +
             "FROM Book b " +
             "JOIN User_Book ub ON ub.Book_ID = b.Id " +
-            "WHERE ub.User_ID = ?1 AND is_Read = 1;", nativeQuery = true)
-    List<Book> getReadBooksById(Integer id);
+            "WHERE ub.User_ID = ?1 AND is_Read = 1 AND YEAR(ub.Date_Read) = YEAR(CURDATE());", nativeQuery = true)
+    List<Book> getBooksReadThisYearById(Integer id);
 }

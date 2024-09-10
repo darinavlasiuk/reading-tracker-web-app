@@ -19,7 +19,7 @@
                 <div class="header__logo">Reading Tracker Web Application</div>
                 <div style="min-width: 400px;">
                     <form method="get" th:action="@{/search}">
-                        <input name="search" type="text" placeholder="Search by title or author"/>
+                        <input class="search" name="search" type="text" placeholder=" Search book by title or author"/>
                         <button class="submit" type="submit">Search</button>
                     </form>
                 </div>
@@ -36,6 +36,7 @@
         <p th:text="${error}"></p>
     </section>
 
+    <div style="margin-top: 50px"></div>
 
     <section class="section__homepage" th:each="genre: ${genres}">
         <h1 class="section__title" th:text="${genre.key}"></h1>

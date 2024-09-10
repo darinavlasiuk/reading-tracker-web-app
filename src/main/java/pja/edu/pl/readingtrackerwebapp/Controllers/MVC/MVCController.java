@@ -1,14 +1,17 @@
 package pja.edu.pl.readingtrackerwebapp.Controllers.MVC;
 
 import com.sun.source.tree.OpensTree;
+import io.swagger.v3.oas.annotations.headers.Header;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import pja.edu.pl.readingtrackerwebapp.DTOs.AuthorDTOs.AuthorDTO;
 import pja.edu.pl.readingtrackerwebapp.DTOs.BookDTOs.BookDTO;
 import pja.edu.pl.readingtrackerwebapp.DTOs.UserDTOs.UserDTO;
+import pja.edu.pl.readingtrackerwebapp.DTOs.User_BookWithoutUserDTO;
 import pja.edu.pl.readingtrackerwebapp.Services.AppService;
 
 import java.time.Duration;
@@ -16,9 +19,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class MVCController {
@@ -45,14 +50,44 @@ public class MVCController {
     }
 
     @GetMapping("/account")
-    public String getAccountPage(@RequestParam(required = false) String username, @RequestParam(required = false) String password, Model model){
+    public String getAccountPage(@RequestParam(required = false) String username, @RequestParam(required = false) String password){
         Optional<UserDTO> userDTO = service.existsUserWithUsernameAndPassword(username, password);
+        return userDTO.map(dto -> "redirect:account/"+dto.getId()).orElse("redirect:logIn?denied=true");
+    }
+    @GetMapping("/account/{id}")
+    public String getAccountPageById(@PathVariable Integer id, Model model){
+        Optional<UserDTO> userDTO = service.getUserById(id);
         if(userDTO.isEmpty())
-            return "redirect:logIn?denied=true";
+            return "redirect:main";
 
-        model.addAttribute("access", "true");
+        model.addAttribute("userId", userDTO.get().getId());
+
+        List<BookDTO> wantToReadBooks = userDTO.get().getUserBooks().stream()
+                .filter(userBookWithoutUserDTO -> userBookWithoutUserDTO.getIsWantToRead()!=0)
+                .map(User_BookWithoutUserDTO::getBook)
+                .toList();
+        int wantToReadNumber = wantToReadBooks.size();
+
+        model.addAttribute("wantToReadNumber", wantToReadNumber);
+        if(!wantToReadBooks.isEmpty())
+            model.addAttribute("wantToReadBooks", wantToReadBooks.stream().limit(6).toList());
+
+        List<BookDTO> readBooks = userDTO.get().getUserBooks().stream()
+                .filter(userBookWithoutUserDTO -> userBookWithoutUserDTO.getIsRead()!=0)
+                .sorted(Comparator.comparing(User_BookWithoutUserDTO::getDateRead))
+                .map(User_BookWithoutUserDTO::getBook)
+                .toList();
+
+        int readNumber = readBooks.size();
+
+        model.addAttribute("readNumber", readNumber);
+        if(!readBooks.isEmpty())
+            model.addAttribute("readBooks", readBooks.stream().limit(6).toList());
 
         if(userDTO.get().getGoal()!=null){
+            List<BookDTO> booksReadThisYear = service.getBooksReadThisYearById(id);
+            model.addAttribute("booksReadThisYear", booksReadThisYear);
+
             double daysPerBook = (double) 365 / userDTO.get().getGoal();
 
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MM yyyy");
@@ -61,22 +96,55 @@ public class MVCController {
             long daysPassed = Math.abs(Duration.between(date2, date1).toDays());
 
             int wasSupposedToRead = (int) (daysPassed / daysPerBook);
-            int booksReadThisYear = service.howManyBooksReadThisYear(userDTO.get().getId());
-            double progress = ((double) booksReadThisYear / userDTO.get().getGoal())*100;
-            int booksBehindSchedule = Math.max(wasSupposedToRead - booksReadThisYear, 0);
+            int readThisYear = booksReadThisYear.size();
+            double progress = ((double) readThisYear / userDTO.get().getGoal())*100;
+            int booksBehindSchedule = Math.max(wasSupposedToRead - readThisYear, 0);
 
             model.addAttribute("progress", progress);
             if(booksBehindSchedule>0)
                 model.addAttribute("booksBehindSchedule", booksBehindSchedule);
 
+            model.addAttribute("read", readThisYear);
             model.addAttribute("goal", userDTO.get().getGoal());
             model.addAttribute("year", Year.now().getValue());
-
-            List<BookDTO> readBooks = service.getReadBooksById(userDTO.get().getId());
-            model.addAttribute("books", readBooks);
         }
 
         return "account";
+    }
+
+    @GetMapping("/account/{id}/wantToRead")
+    public String getWantToReadPageById(@PathVariable Integer id, Model model){
+        Optional<UserDTO> userDTO = service.getUserById(id);
+        if(userDTO.isEmpty())
+            return "redirect:main";
+
+        List<BookDTO> wantToReadBooks = userDTO.get().getUserBooks().stream()
+                .filter(userBookWithoutUserDTO -> userBookWithoutUserDTO.getIsWantToRead()!=0)
+                .map(User_BookWithoutUserDTO::getBook)
+                .toList();
+
+        model.addAttribute("wantToReadBooks", wantToReadBooks);
+        model.addAttribute("pageName", "Books you've marked as 'Want to Read'");
+
+        return "books";
+    }
+
+    @GetMapping("/account/{id}/read")
+    public String getReadPageById(@PathVariable Integer id, Model model){
+        Optional<UserDTO> userDTO = service.getUserById(id);
+        if(userDTO.isEmpty())
+            return "redirect:main";
+
+        List<BookDTO> readBooks = userDTO.get().getUserBooks().stream()
+                .filter(userBookWithoutUserDTO -> userBookWithoutUserDTO.getIsRead()!=0)
+                .sorted(Comparator.comparing(User_BookWithoutUserDTO::getDateRead))
+                .map(User_BookWithoutUserDTO::getBook)
+                .toList();
+
+        model.addAttribute("readBooks", readBooks);
+        model.addAttribute("pageName", "Books you've marked as 'Read'");
+
+        return "books";
     }
     @GetMapping("/books/{id}")
     public String getAccountPage(@PathVariable Integer id, Model model){

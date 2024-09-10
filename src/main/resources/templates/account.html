@@ -27,26 +27,84 @@
     </div>
   </header>
 
-  <div th:if="${access}" style="margin-top: 50px">
+
+
+  <div style="margin-top: 50px">
+    <section class="section__homepage">
+      <div class="section__title__account">
+        <div style="display: flex; justify-content: left; align-items: flex-end">
+          <h1 style="text-transform: uppercase">Want to Read</h1>
+          <h3 style="text-indent: 45px;" th:text="|${wantToReadNumber} book(s)|"></h3>
+        </div>
+      </div>
+
+      <div class="account" th:if="${wantToReadBooks}">
+        <div th:each="book: ${wantToReadBooks}">
+          <div>
+            <a th:href="@{|/books/${book.id}|}">
+              <img class="account__img" th:src="|https://covers.openlibrary.org/b/isbn/${book.cover}-M.jpg|" alt="Top book">
+            </a>
+          </div>
+        </div>
+        <div>
+          <a th:href="@{|/account/${userId}/wantToRead|}">
+            <img class="account__img" src="/images/view_more.jpg" alt="Top book">
+          </a>
+        </div>
+      </div>
+      <div th:unless="${wantToReadBooks}">
+        <h4 style="text-align: left; text-indent: 4em" th:text="|You have no books maked as 'Want to Read'.|"></h4>
+      </div>
+    </section>
+
+    <section class="section__homepage">
+      <div class="section__title__account">
+        <div style="display: flex; justify-content: left; align-items: flex-end">
+          <h1 style="text-transform: uppercase">Read</h1>
+          <h3 style="text-indent: 45px;" th:text="|${readNumber} book(s)|"></h3>
+        </div>
+      </div>
+
+      <div class="account" th:if="${readBooks}">
+        <div th:each="book: ${readBooks}">
+          <div>
+            <a th:href="@{|/books/${book.id}|}">
+              <img class="account__img" th:src="|https://covers.openlibrary.org/b/isbn/${book.cover}-M.jpg|" alt="Top book">
+            </a>
+          </div>
+        </div>
+        <div>
+          <a th:href="@{|/account/${userId}/read|}">
+            <img class="account__img" src="/images/view_more.jpg" alt="Top book">
+          </a>
+        </div>
+      </div>
+      <div th:unless="${readBooks}">
+        <h4 style="text-align: left; text-indent: 4em" th:text="|You have no books maked as 'Read'.|"></h4>
+      </div>
+    </section>
+
     <div th:if="${progress}">
       <section class="section__homepage">
         <div>
-          <h1 th:text="|Set goal for ${year}: ${goal} book(s)|"></h1>
-          <br>
-          <h1 class="section__title" th:text="|Your progress: ${progress}%|"></h1>
-
+          <h1 class="section__title" th:text="|Your progress for ${year}|"></h1>
+          <h1 th:text="|${read} of ${goal} books|"></h1>
+          <div style="justify-content: center; display: flex; vertical-align: middle; line-height: 22px;">
+            <progress style="margin-left: 3em" th:value="${read}" th:max="${goal}"></progress>
+            <h4 style="text-indent: 5px" th:text="|${progress}%|"></h4>
+          </div>
           <div th:if="${booksBehindSchedule}">
-            <h3 th:text="|You are ${booksBehindSchedule} book(s) behind your schedule.|"></h3>
+            <h4 style="text-align: center" th:text="|${booksBehindSchedule} book(s) behind your schedule.|"></h4>
           </div>
           <div th:unless="${booksBehindSchedule}">
-            <h3  th:text="|Great! You are on track with your reading schedule.|"></h3>
+            <h4 style="text-align: center" th:text="|Great! You are on track with your reading schedule.|"></h4>
           </div>
         </div>
       </section>
     </div>
 
 
-    <section class="section__homepage" th:each="book: ${books}">
+    <section class="section__homepage" th:each="book: ${booksReadThisYear}">
       <div class="container__homepage">
         <div class="genre">
           <div>
@@ -54,7 +112,7 @@
               <img class="account__img" th:src="|https://covers.openlibrary.org/b/isbn/${book.cover}-M.jpg|" alt="Top book" >
             </a>
           </div>
-          <div class="account">
+          <div class="account__book">
             <p th:text="|Title: ${book.title}|"></p>
             <br>
             <p th:text="|Rating: ${book.rating}|"></p>
@@ -74,11 +132,11 @@
 
   </div>
 
-  <section class="section__homepage" th:unless="${access}">
+  <!--<section class="section__homepage" th:unless="${access}">
     <div class="container__homepage" style="align-content: center">
         <h1>No access</h1>
     </div>
-  </section>
+  </section>-->
 
 </body>
 </html>

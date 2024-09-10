@@ -91,8 +91,8 @@ public class AppService {
         }
         return topBooks;
     }
-    public List<BookDTO> getReadBooksById(Integer id){
-        return bookRepository.getReadBooksById(id).stream().map(mapper::map).collect(Collectors.toList());
+    public List<BookDTO> getBooksReadThisYearById(Integer id){
+        return bookRepository.getBooksReadThisYearById(id).stream().map(mapper::map).collect(Collectors.toList());
     }
 
 
