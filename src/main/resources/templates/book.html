@@ -20,8 +20,6 @@
                 <nav class="nav">
                     <a class="nav__link" th:href="@{/main}">MAIN PAGE</a>
                     <a class="nav__link" th:href="@{/logIn}">MY ACCOUNT</a>
-                    <!--<a class="nav__link" href="@{/logIn}">LOG IN</a>
-                    <a class="nav__link" href="@{/register}">REGISTER</a>-->
                 </nav>
             </div>
         </div>
@@ -33,11 +31,11 @@
 
         <section class="section__homepage">
             <div class="container__book">
-                <div class="account">
+                <div class="container__account">
                     <div>
                         <img class="book__img" th:src="|https://covers.openlibrary.org/b/isbn/${book.cover}-L.jpg|" alt="Top Book" >
                     </div>
-                    <div class="book">
+                    <div class="container__book__data">
                         <p th:text="|Rating: ${book.rating}|"></p>
                         <br>
                         <p th:text="|Release date: ${book.releaseDate}|"></p>
@@ -58,7 +56,26 @@
                             <p th:text="${genre.name}"></p>
                             <br>
                         </div>
+
                     </div>
+                </div>
+
+                <div class="container__account">
+                    <form method="get" th:action="@{/logIn}">
+                        <input type="hidden" name="bookId" th:value="${book.id}"/>
+                        <input type="hidden" name="markAs" value="0"/>
+                        <button class="submit" type="submit">Want to Read</button>
+                    </form>
+                    <form method="get" th:action="@{/logIn}">
+                        <input type="hidden" name="bookId" th:value="${book.id}"/>
+                        <input type="hidden" name="markAs" value="1"/>
+                        <button class="submit" type="submit">Read</button>
+                    </form>
+                    <form method="get" th:action="@{/logIn}">
+                        <input type="hidden" name="bookId" th:value="${book.id}"/>
+                        <input type="hidden" name="markAs" value="2"/>
+                        <button class="submit" type="submit">Remove</button>
+                    </form>
                 </div>
             </div>
         </section>

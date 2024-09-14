@@ -20,8 +20,6 @@
 
         <nav>
           <a class="nav__link" th:href="@{/main}">MAIN PAGE</a>
-          <!--<a class="nav__link" href="@{/logIn}">LOG IN</a>
-          <a class="nav__link" href="@{/register}">REGISTER</a>-->
         </nav>
       </div>
     </div>
@@ -31,13 +29,13 @@
   <div style="margin-top: 50px">
     <section class="section__homepage">
       <div class="section__title__account">
-        <div class="title__container">
+        <div class="container__title">
           <h1 class="account__title">Want to Read</h1>
           <h3 class="books__number" th:text="|${wantToReadNumber} book(s)|"></h3>
         </div>
       </div>
 
-      <div class="account" th:if="${wantToReadBooks}">
+      <div class="container__account" th:if="${wantToReadBooks}">
         <div th:each="book: ${wantToReadBooks}">
           <div>
             <a th:href="@{|/books/${book.id}|}">
@@ -58,13 +56,13 @@
 
     <section class="section__homepage">
       <div class="section__title__account">
-        <div class="title__container">
+        <div class="container__title">
           <h1 class="account__title">Read</h1>
           <h3 class="books__number" th:text="|${readNumber} book(s)|"></h3>
         </div>
       </div>
 
-      <div class="account" th:if="${readBooks}">
+      <div class="container__account" th:if="${readBooks}">
         <div th:each="book: ${readBooks}">
           <div>
             <a th:href="@{|/books/${book.id}|}">
@@ -88,7 +86,7 @@
         <div>
           <h1 class="section__title" th:text="|Your progress for ${year}|"></h1>
           <h1 th:text="|${read} of ${goal} books|"></h1>
-          <div class="progress__container">
+          <div class="container__progress">
             <progress th:value="${read}" th:max="${goal}"></progress>
             <h4 class="percent" th:text="|${progress}%|"></h4>
           </div>
@@ -105,7 +103,7 @@
 
     <section class="section__homepage" th:each="book: ${booksReadThisYear}">
       <div class="container__homepage">
-        <div class="account">
+        <div class="container__account">
           <div>
             <a th:href="@{|/books/${book.id}|}">
               <img class="account__img" th:src="|https://covers.openlibrary.org/b/isbn/${book.cover}-M.jpg|" alt="Top book" >

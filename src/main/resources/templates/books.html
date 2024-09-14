@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <title>Books</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}" href="../static/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <div class="header__logo">Reading Tracker Web Application</div>
+
+                <nav class="nav">
+                    <a class="nav__link" th:href="@{/main}">MAIN PAGE</a>
+                    <a class="nav__link" th:href="@{/logIn}">MY ACCOUNT</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+
+    <section class="section__homepage">
+        <h1 class="section__title" th:text="${pageName}"></h1>
+    </section>
+
+    <div th:object="${books}">
+        <section class="section__homepage" th:each="book: ${books}">
+            <div class="container__homepage">
+                <div class="container__account">
+                    <div>
+                        <a th:href="@{|/books/${book.id}|}">
+                            <img class="account__img" th:src="|https://covers.openlibrary.org/b/isbn/${book.cover}-M.jpg|" alt="Top book" >
+                        </a>
+                    </div>
+                    <div class="account__book">
+                        <h4 class="book__title" th:text="|${book.title}|"></h4>
+                        <br>
+                        <p th:text="|Rating: ${book.rating}|"></p>
+                    </div>
+
+                </div>
+                <h1 class="section__title"></h1>
+            </div>
+        </section>
+    </div>
+
+    <div th:unless="${books}">
+        <h4 class="books__empty" th:text="|You have no books saved.|"></h4>
+    </div>
+
+    <footer>
+        <p>Copyright (c) 2024 Daryna Vlasiuk</p>
+    </footer>
+
+
+</body>
+</html>

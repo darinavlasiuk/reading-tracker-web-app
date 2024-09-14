@@ -19,19 +19,19 @@
         <div class="header__logo">Reading Tracker Web Application</div>
         <nav>
           <a class="nav__link" th:href="@{/main}">MAIN PAGE</a>
-          <!--<a class="nav__link" href="@{/logIn}">LOG IN</a>
-          <a class="nav__link" href="@{/register}">REGISTER</a>-->
         </nav>
       </div>
     </div>
   </header>
 
   <section class="section__homepage">
-    <div style="margin-top: 50px"></div>
-      <form method="get" th:action="@{/account}" style="flex-direction: column; max-width: 300px">
+    <div class="container__login"></div>
+      <form class="login" method="get" th:action="@{/account}">
         <input name="username" type="text" placeholder=" Username"/>
         <input name="password" type="text" placeholder=" Password"/>
-        <button style="min-height: 35px" class="submit" type="submit">Log in</button>
+        <input th:if="${bookId}" type="hidden"  name="bookId" th:value="${bookId}"/>
+        <input th:if="${bookId}" type="hidden"  name="markAs" th:value="${markAs}"/>
+        <button class="submit" type="submit">Log in</button>
       </form>
     </div>
 

@@ -23,6 +23,17 @@ public class User_Book {
     private Integer rating;
     @Nullable
     private Date dateRead;
+    public User_Book(){
+
+    }
+    public User_Book(MyUser user, Book book, Short isRead, Short isWantToRead, Integer rating, Date dateRead) {
+        this.user = user;
+        this.book = book;
+        this.isRead = isRead;
+        this.isWantToRead = isWantToRead;
+        this.rating = rating;
+        this.dateRead = dateRead;
+    }
 
     public MyUser getUser() {
         return user;

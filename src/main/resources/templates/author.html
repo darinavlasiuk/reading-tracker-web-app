@@ -20,8 +20,6 @@
         <nav class="nav">
           <a class="nav__link" th:href="@{/main}">MAIN PAGE</a>
           <a class="nav__link" th:href="@{/logIn}">MY ACCOUNT</a>
-          <!--<a class="nav__link" href="@{/logIn}">LOG IN</a>
-          <a class="nav__link" href="@{/register}">REGISTER</a>-->
         </nav>
       </div>
     </div>
@@ -40,7 +38,7 @@
 
     <section class="section__homepage" th:each="book: ${author.books}">
       <div class="container__homepage">
-        <div class="account">
+        <div class="container__account">
           <div>
             <a th:href="@{|/books/${book.id}|}">
               <img class="account__img" th:src="|https://covers.openlibrary.org/b/isbn/${book.cover}-M.jpg|" alt="Top book" >

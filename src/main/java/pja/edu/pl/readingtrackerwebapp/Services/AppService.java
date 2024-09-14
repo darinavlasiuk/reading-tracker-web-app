@@ -2,6 +2,7 @@ package pja.edu.pl.readingtrackerwebapp.Services;
 
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pja.edu.pl.readingtrackerwebapp.DTOs.AuthorDTOs.AuthorDTO;
 import pja.edu.pl.readingtrackerwebapp.DTOs.AuthorDTOs.NewAuthorDTO;
 import pja.edu.pl.readingtrackerwebapp.DTOs.BookDTOs.BookDTO;
@@ -10,9 +11,15 @@ import pja.edu.pl.readingtrackerwebapp.DTOs.PublisherDTOs.NewPublisherDTO;
 import pja.edu.pl.readingtrackerwebapp.DTOs.PublisherDTOs.PublisherDTO;
 import pja.edu.pl.readingtrackerwebapp.DTOs.UserDTOs.NewUserDTO;
 import pja.edu.pl.readingtrackerwebapp.DTOs.UserDTOs.UserDTO;
+import pja.edu.pl.readingtrackerwebapp.DTOs.User_BookWithoutUserDTO;
 import pja.edu.pl.readingtrackerwebapp.Entities.*;
 import pja.edu.pl.readingtrackerwebapp.Repositories.*;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Year;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -95,7 +102,6 @@ public class AppService {
         return bookRepository.getBooksReadThisYearById(id).stream().map(mapper::map).collect(Collectors.toList());
     }
 
-
     // User Service
     public Optional<UserDTO> getUserById(Integer id) {
         return userRepository.findById(id).map(mapper::map);
@@ -169,8 +175,68 @@ public class AppService {
     }
 
     // User_Book Service
-    public int howManyBooksReadThisYear(Integer id){
-        return userBookRepository.howManyBooksReadThisYear(id);
+    @Transactional
+    public void markBookAs(Integer userId, Integer bookId, Integer markAs) {
+        Optional<User_Book> toModifyOptional = userBookRepository.findByUserIdAndBookId(userId, bookId);
+        if(toModifyOptional.isEmpty()) {
+            switch (markAs) {
+                case 0:
+                    userBookRepository.save(new User_Book(userRepository.findById(userId).get(),
+                            bookRepository.findById(bookId).get(),
+                            (short) 0,
+                            (short) 1,
+                            null,
+                            null));
+                case 1:
+                    userBookRepository.save(new User_Book(userRepository.findById(userId).get(),
+                            bookRepository.findById(bookId).get(),
+                            (short) 1,
+                            (short) 0,
+                            null,
+                            new Date()));
+            }
+        }
+        else{
+            User_Book toModify = toModifyOptional.get();
+            switch (markAs) {
+                case 0:
+                    toModify.setIsWantToRead((short) 1);
+                    toModify.setIsRead((short) 0);
+                    toModify.setRating(null);
+                    toModify.setDateRead(null);
+                    userBookRepository.save(toModify);
+                case 1:
+                    toModify.setIsWantToRead((short) 0);
+                    toModify.setIsRead((short) 1);
+                    toModify.setDateRead(new Date());
+                    userBookRepository.save(toModify);
+                case 2:
+                    userBookRepository.delete(toModify);
+            }
+        }
+    }
+
+    public long calculateDaysPassed(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MM yyyy");
+        LocalDateTime date1 = LocalDate.now().atStartOfDay();
+        LocalDateTime date2 = LocalDate.parse("01 01 "+ Year.now().getValue(), dtf).atStartOfDay();
+
+        return Math.abs(Duration.between(date2, date1).toDays());
+    }
+
+    public List<BookDTO> getWantToReadBooks(UserDTO userDTO) {
+        return userDTO.getUserBooks().stream()
+                .filter(userBookWithoutUserDTO -> userBookWithoutUserDTO.getIsWantToRead()!=0)
+                .map(User_BookWithoutUserDTO::getBook)
+                .toList();
+    }
+
+    public List<BookDTO> getReadBooks(UserDTO userDTO) {
+        return userDTO.getUserBooks().stream()
+                .filter(userBookWithoutUserDTO -> userBookWithoutUserDTO.getIsRead()!=0)
+                .sorted(Comparator.comparing(User_BookWithoutUserDTO::getDateRead))
+                .map(User_BookWithoutUserDTO::getBook)
+                .toList();
     }
 
 }
